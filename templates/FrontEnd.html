@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Tweet Sentiment Analyzer</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/favicon.ico') }}"/>
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/animate/animate.css') }}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/css-hamburgers/hamburgers.min.css') }}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/select2/select2.min.css') }}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/util.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <!--===============================================================================================-->
+    </head>
+    <body>
+        <div class="contact1">
+            <div>
+                <form action="/find-sentiment" class="contact1-form validate-form" enctype="multipart/form-data" id="myForm" method="post">
+                    <span class="contact1-form-title">
+					    Welcome to Tweet Sentiment Analyzer
+				    </span>
+                    <span>
+					    Enter following information to find the tweets of certain sentiment (positive, negative, or neutral)!
+				    </span>
+                    <br><br>
+                    <div class="wrap-input1 validate-input" data-validate = "Name is required">
+                        <p>1) Enter name of the person (The latest tweets related to the entered name will be classified into one of the three sentiments):*</p>
+					    <input class="input1" type="text" name="name" placeholder="Name" required>
+					    <span class="shadow-input1"></span>
+				    </div>
+
+                    <div class="wrap-input1">
+                        <p>2) What type of Tweets do you want to see?<br></p>
+					    <input type="checkbox" name="sentiment" id="pos" value="positive" onclick="check1()">Positive<br>
+                        <input type="hidden"   name="sentiment" id="posHidden" value="positiveFalse" />
+                        <input type="checkbox" name="sentiment" id="neg" value="negative" onclick="check2()">Negative<br>
+                        <input type="hidden"   name="sentiment" id="negHidden" value="negativeFalse" />
+                        <input type="checkbox" name="sentiment" id="neu" value="neutral" onclick="check3()">Neutral<br>
+                        <input type="hidden"   name="sentiment" id="neuHidden" value="neutralFalse" />
+				    </div>
+
+                    <div id="positive" class="wrap-input1"></div>
+                    <div id="negative" class="wrap-input1"></div>
+                    <div id="neutral" class="wrap-input1"></div>
+
+                    <div class="container-contact1-form-btn">
+                        <button type="submit" id="submitButton" class="contact1-form-btn">
+                            <span>
+                                Find Tweets
+                                <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                            </span>
+                        </button>
+				    </div>
+                </form>
+            </div>
+        </div>
+        <script>
+            function check1(){
+                document.getElementById('posHidden').disabled = true;
+                document.getElementById('positive').innerHTML =
+                    '<input class="input1" name="posNo" placeholder="Number of Positive Tweets*" required><br>';
+            }
+            function check2(){
+                document.getElementById('negHidden').disabled = true;
+                document.getElementById('negative').innerHTML =
+                    '<input class="input1" name="negNo" placeholder="Number of Negative Tweets*" required><br>';
+            }
+            function check3(){
+                document.getElementById('neuHidden').disabled = true;
+                document.getElementById('neutral').innerHTML =
+                    '<input class="input1" name="neuNo" placeholder="Number of Neutral Tweets*" required><br>';
+            }
+
+        </script>
+    </body>
+</html>
