@@ -81,7 +81,7 @@ def findSentiment():
     print("Length of the list after adding neutral tweets:", len(resList))
     print(resList)
 
-    return render_template('DisplayResult.html', resList=resList, posNo=posNo, negNo=negNo, neuNo=neuNo)
+    return render_template('DisplayResult.html', resList=resList)
 
 
 if __name__ == "__main__":
