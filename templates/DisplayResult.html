@@ -79,23 +79,39 @@
                 <button class="tablinks" onclick="openCity(event, 'Tokyo')">Neutral</button>
             </div>
             <div id="London" class="tabcontent">
-              <h3>Positive Tweets:</h3>
-              <p>{{ posNo }}</p>
+              <h3>Positive Tweets:</h3><br>
+                {% set count= namespace(value=1)%}
+              {% for item in resList %}
+                {% if item['sentiment']=='positive'%}
+                <p style="color:black;">{{ count.value }}) {{ item['text'] }}</p>
+                {% set count.value = count.value + 1%}
+                {% endif %}
+                {% endfor %}
             </div>
             <div id="Paris" class="tabcontent">
-              <h3>Negative Tweets</h3>
-              <p>{{ negNo }}</p>
+              <h3>Negative Tweets</h3><br>
+                {% set count= namespace(value=1)%}
+              {% for item in resList %}
+                {% if item['sentiment']=='negative'%}
+                <p style="color:black;">{{ count.value }}) {{ item['text'] }}</p>
+                {% set count.value = count.value + 1%}
+                {% endif %}
+                {% endfor %}
             </div>
             <div id="Tokyo" class="tabcontent">
-              <h3>Neutral Tweets</h3>
-              <p>{{ neuNo }}</p>
+              <h3>Neutral Tweets</h3><br>
+                {% set count= namespace(value=1)%}
+              {% for item in resList %}
+                {% if item['sentiment']=='neutral'%}
+                <p style="color:black;">{{ count.value }}) {{ item['text'] }}</p>
+                {% set count.value = count.value + 1%}
+                {% endif %}
+                {% endfor %}
             </div>
             <div style="position: absolute; bottom: 5px;">
                 <a href="/"><h4>&#8678; Go back to Home</h4></a>
             </div>
-            {% for item in resList %}
-                <p>{{ posNo }}Here is item</p>
-            {% endfor %}
+
         <script>
             function openCity(evt, cityName) {
                 var i, tabcontent, tablinks;

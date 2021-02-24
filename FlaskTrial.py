@@ -33,11 +33,8 @@ def findSentiment():
             nTweets.append(tweet)
         else:
             neuTweets.append(tweet)
-    for t in pTweets:
-        print(t)
 
-
-    '''print("Positive tweets percentage: {} %".format(100 * len(pTweets) / len(tweets)))
+    print("Positive tweets percentage: {} %".format(100 * len(pTweets) / len(tweets)))
     print("Negative tweets percentage: {} %".format(100 * len(nTweets) / len(tweets)))
     print("Neutral tweets percentage: {} %".format(100 * len(neuTweets) / len(tweets)))
 
@@ -82,9 +79,10 @@ def findSentiment():
     else:
         neuNo = 0
     print("Length of the list after adding neutral tweets:", len(resList))
+    print(resList)
 
     return render_template('DisplayResult.html', resList=resList, posNo=posNo, negNo=negNo, neuNo=neuNo)
-'''
+
 
 if __name__ == "__main__":
     app.run()
