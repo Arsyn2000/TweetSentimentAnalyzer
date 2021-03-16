@@ -62,7 +62,7 @@ class TwitterClient(object):
                 parsed_tweet = {'text': tweet.text, 'sentiment': self.get_tweet_sentiment(tweet.text)}
 
                 # Checking for retweets
-                # Id a tweet has retweets append it only once
+                # If a tweet has retweets append it only once
                 if tweet.retweet_count > 0:
                     if parsed_tweet not in tweets:
                         tweets.append(parsed_tweet)

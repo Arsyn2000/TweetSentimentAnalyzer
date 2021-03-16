@@ -19,6 +19,7 @@
     <!--===============================================================================================-->
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/util.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <!--===============================================================================================-->
         <style>
             body {font-family: Arial;}
@@ -77,6 +78,7 @@
                 <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Positive</button>
                 <button class="tablinks" onclick="openCity(event, 'Paris')">Negative</button>
                 <button class="tablinks" onclick="openCity(event, 'Tokyo')">Neutral</button>
+                <button class="tablinks" onclick="openCity(event, 'NY')">Pie-Chart</button>
             </div>
             <div id="London" class="tabcontent">
               <h3>Positive Tweets:</h3><br>
@@ -89,7 +91,7 @@
                 {% endfor %}
             </div>
             <div id="Paris" class="tabcontent">
-              <h3>Negative Tweets</h3><br>
+              <h3>Negative Tweets:</h3><br>
                 {% set count= namespace(value=1)%}
               {% for item in resList %}
                 {% if item['sentiment']=='negative'%}
@@ -99,7 +101,7 @@
                 {% endfor %}
             </div>
             <div id="Tokyo" class="tabcontent">
-              <h3>Neutral Tweets</h3><br>
+              <h3>Neutral Tweets:</h3><br>
                 {% set count= namespace(value=1)%}
               {% for item in resList %}
                 {% if item['sentiment']=='neutral'%}
@@ -108,26 +110,62 @@
                 {% endif %}
                 {% endfor %}
             </div>
+            <div id="NY" class="tabcontent">
+                <h3>Sentiment Pie-Chart:</h3><br>
+                <h6>- The the original number of tweets(i.e. 200) arriving from Twitter API are classified into Positive, Negative, Neutral using Pie-chart.</h6>
+                <div style="margin: 10px 0 0 10px;width: 1000px;">
+                    <div id="piechart_3d" style="width: 900px; height: 200px;"></div>
+                </div>
+            </div>
+
             <div style="position: absolute; bottom: 5px;">
                 <a href="/"><h4>&#8678; Go back to Home</h4></a>
             </div>
+            <script type="text/javascript">
+                      function openCity(evt, cityName) {
+                        var i, tabcontent, tablinks;
+                        tabcontent = document.getElementsByClassName("tabcontent");
+                        for (i = 0; i < tabcontent.length; i++) {
+                            tabcontent[i].style.display = "none";
+                        }
+                        tablinks = document.getElementsByClassName("tablinks");
+                        for (i = 0; i < tablinks.length; i++) {
+                            tablinks[i].className = tablinks[i].className.replace(" active", "");
+                        }
+                        document.getElementById(cityName).style.display = "block";
+                        evt.currentTarget.className += " active";
+                    }
+                    // Get the element with id="defaultOpen" and click on it
+                    document.getElementById("defaultOpen").click();
+                      google.charts.load("current", {packages:["corechart"]});
+                      google.charts.setOnLoadCallback(drawChart);
+                      function drawChart() {
+                        var data = google.visualization.arrayToDataTable([
+                            {% for key, value in data.items() %}
+                                {% if value is string %}
+                                    ['{{ key }}', '{{ value }}'],
+                                {% else %}
+                                    ['{{ key }}', {{ value }}],
+                                {% endif %}
+                            {% endfor %}
+                        ]);
 
-        <script>
-            function openCity(evt, cityName) {
-                var i, tabcontent, tablinks;
-                tabcontent = document.getElementsByClassName("tabcontent");
-                for (i = 0; i < tabcontent.length; i++) {
-                    tabcontent[i].style.display = "none";
-                }
-                tablinks = document.getElementsByClassName("tablinks");
-                for (i = 0; i < tablinks.length; i++) {
-                    tablinks[i].className = tablinks[i].className.replace(" active", "");
-                }
-                document.getElementById(cityName).style.display = "block";
-                evt.currentTarget.className += " active";
-            }
-            // Get the element with id="defaultOpen" and click on it
-            document.getElementById("defaultOpen").click();
-        </script>
+                        var options = {
+                          title: 'Positive, Negative, and Neutral Classification',
+                          is3D: true,
+                          width: '100%',
+                          height: '100%',
+                          chartArea: {
+                              left: "3%",
+                              top: "3%",
+                              height: "100%",
+                              width: "100%"
+                          }
+                        };
+
+                        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+                        chart.draw(data, options);
+                      }
+            </script>
     </body>
 </html>

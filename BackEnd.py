@@ -1,4 +1,3 @@
-from random import randint
 from flask import Flask, flash, redirect, render_template, request, session, abort
 import Analysis
 
@@ -34,9 +33,12 @@ def findSentiment():
         else:
             neuTweets.append(tweet)
 
-    print("Positive tweets percentage: {} %".format(100 * len(pTweets) / len(tweets)))
-    print("Negative tweets percentage: {} %".format(100 * len(nTweets) / len(tweets)))
-    print("Neutral tweets percentage: {} %".format(100 * len(neuTweets) / len(tweets)))
+    posPercentage = 100 * len(pTweets) / len(tweets)
+    negPercentage = 100 * len(nTweets) / len(tweets)
+    neuPercentage = 100 * len(neuTweets) / len(tweets)
+    print("Positive tweets percentage: {} %".format(posPercentage))
+    print("Negative tweets percentage: {} %".format(negPercentage))
+    print("Neutral tweets percentage: {} %".format(neuPercentage))
 
     # ___________________________________________________________________________________
 
@@ -81,7 +83,9 @@ def findSentiment():
     print("Length of the list after adding neutral tweets:", len(resList))
     print(resList)
 
-    return render_template('DisplayResult.html', resList=resList)
+    data = {'Task': 'Tweet Classification', 'Positive': posPercentage, 'Negative': negPercentage, 'Neutral': neuPercentage}
+
+    return render_template('DisplayResult.html', resList=resList, data=data)
 
 
 if __name__ == "__main__":
