@@ -70,6 +70,21 @@
               text-decoration: none;
               font-family: Arial
             }
+            table {
+              font-family: arial, sans-serif;
+              border-collapse: collapse;
+              width: 100%;
+            }
+
+            td, th {
+              border: 1px solid #dddddd;
+              text-align: left;
+              padding: 8px;
+            }
+
+            tr:nth-child(even) {
+              background-color: #dddddd;
+            }
         </style>
     </head>
     <body>
@@ -79,6 +94,7 @@
                 <button class="tablinks" onclick="openCity(event, 'Paris')">Negative</button>
                 <button class="tablinks" onclick="openCity(event, 'Tokyo')">Neutral</button>
                 <button class="tablinks" onclick="openCity(event, 'NY')">Pie-Chart</button>
+                <button class="tablinks" onclick="openCity(event, 'LA')">Profane Tweets Table</button>
             </div>
             <div id="London" class="tabcontent">
               <h3>Positive Tweets:</h3><br>
@@ -117,8 +133,33 @@
                     <div id="piechart_3d" style="width: 900px; height: 200px;"></div>
                 </div>
             </div>
+            <div id="LA" class="tabcontent">
+                <h3>Profane Tweets Table:</h3><br>
+                    <table>
+                      <tr>
+                          <th>Sr.No.</th>
+                          <th>Name</th>
+                          <th>Latest Abusive Tweet by User</th>
+                          <th>Sentiment</th>
+                          <th>Abusive</th>
+                          <th>Count</th>
+                          <th>Date</th>
+                      </tr>
+                        {% for row in records %}
+                      <tr>
+                          <td>{{ row[0] }}</td>
+                          <td>{{ row[1] }}</td>
+                          <td>{{ row[2] }}</td>
+                          <td>{{ row[3] }}</td>
+                          <td>{{ row[4] }}</td>
+                          <td>{{ row[5] }}</td>
+                          <td>{{ row[6] }}</td>
+                      </tr>
+                        {% endfor %}
+                    </table>
+            </div>
 
-            <div style="position: absolute; bottom: 5px;">
+            <div style="position: relative; bottom: -5px;">
                 <a href="/"><h4>&#8678; Go back to Home</h4></a>
             </div>
             <script type="text/javascript">

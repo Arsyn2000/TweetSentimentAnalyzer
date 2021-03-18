@@ -1,4 +1,5 @@
 from flask import Flask, flash, redirect, render_template, request, session, abort
+import AbusiveTweetsDB
 import Analysis
 
 app = Flask(__name__)
@@ -25,13 +26,22 @@ def findSentiment():
     pTweets = []
     nTweets = []
     neuTweets = []
+    profaneTweets = []
+
     for tweet in tweets:
+        if tweet['profanity']:
+            profaneTweets.append(tweet)
+            obj = AbusiveTweetsDB.AbusiveTweetsDB()
+            obj.writeToDB(tweet)
         if tweet['sentiment'] == 'positive':
             pTweets.append(tweet)
         elif tweet['sentiment'] == 'negative':
             nTweets.append(tweet)
         else:
             neuTweets.append(tweet)
+
+    print("Length of the profaneTweets list:", len(profaneTweets))
+    print(profaneTweets)
 
     posPercentage = 100 * len(pTweets) / len(tweets)
     negPercentage = 100 * len(nTweets) / len(tweets)
@@ -83,9 +93,14 @@ def findSentiment():
     print("Length of the list after adding neutral tweets:", len(resList))
     print(resList)
 
-    data = {'Task': 'Tweet Classification', 'Positive': posPercentage, 'Negative': negPercentage, 'Neutral': neuPercentage}
+    obj = AbusiveTweetsDB.AbusiveTweetsDB()
+    records = obj.returnAllDataFromDatabase()
+    print(records)
 
-    return render_template('DisplayResult.html', resList=resList, data=data)
+    data = {'Task': 'Tweet Classification', 'Positive': posPercentage, 'Negative': negPercentage,
+            'Neutral': neuPercentage}
+
+    return render_template('DisplayResult.html', resList=resList, data=data, records=records)
 
 
 if __name__ == "__main__":

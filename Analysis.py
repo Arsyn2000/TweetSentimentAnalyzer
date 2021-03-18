@@ -1,5 +1,6 @@
 import re
 import tweepy
+from better_profanity import profanity
 from tweepy import OAuthHandler
 from textblob import TextBlob
 
@@ -59,7 +60,12 @@ class TwitterClient(object):
             # Parsing tweets
             for tweet in fetched_tweets:
                 # Empty dictionary to store required parameters of a tweet
-                parsed_tweet = {'text': tweet.text, 'sentiment': self.get_tweet_sentiment(tweet.text)}
+                parsed_tweet = {
+                    'text': tweet.text, 'sentiment': self.get_tweet_sentiment(tweet.text),
+                    'profanity': profanity.contains_profanity(tweet.text),
+                    'screen_name': tweet.user.screen_name,
+                    'created_at': tweet.created_at
+                }
 
                 # Checking for retweets
                 # If a tweet has retweets append it only once
